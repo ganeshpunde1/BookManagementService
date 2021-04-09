@@ -2,7 +2,10 @@ package com.gp.book.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +27,12 @@ public class BookController {
 	@Autowired
 	private BookRepository BookRepository;
 
+	@Value("$(application.environment)")
+	private String environment;
+
+	@Value("$(ratelimit.percalday)")
+	private String rateLimitPerCalDay;
+
 	// get all Books
 	@GetMapping
 	public List<Book> getAllBooks() {
@@ -32,36 +41,36 @@ public class BookController {
 
 	// get Book by id
 	@GetMapping("/{id}")
-	public Book getBookById(@PathVariable (value = "id") long BookId) {
+	public Book getBookById(@PathVariable(value = "id") long BookId) {
 		return this.BookRepository.findById(BookId)
 				.orElseThrow(() -> new ResourceNotFoundException("Book not found with id :" + BookId));
 	}
 
 	// create Book
 	@PostMapping
-	public Book createBook(@RequestBody Book Book) {
+	public Book createBook(@Valid @RequestBody Book Book) {
 		return this.BookRepository.save(Book);
 	}
-	
+
 	// update Book
 	@PutMapping("/{id}")
-	public Book updateBook(@RequestBody Book book, @PathVariable ("id") long BookId) {
-		 Book existingBook = this.BookRepository.findById(BookId)
-			.orElseThrow(() -> new ResourceNotFoundException("Book not found with id :" + BookId));
-		 existingBook.setBookName(book.getBookName());
-		 existingBook.setBookCd(book.getBookCd());
-		 existingBook.setBookAuthor(book.getBookAuthor());
-		 existingBook.setSubject(book.getSubject());
-		 existingBook.setPrice(book.getPrice());
-		 return this.BookRepository.save(existingBook);
+	public Book updateBook(@Valid @RequestBody Book book, @PathVariable("id") long BookId) {
+		Book existingBook = this.BookRepository.findById(BookId)
+				.orElseThrow(() -> new ResourceNotFoundException("Book not found with id :" + BookId));
+		existingBook.setBookName(book.getBookName());
+		existingBook.setBookCd(book.getBookCd());
+		existingBook.setBookAuthor(book.getBookAuthor());
+		existingBook.setSubject(book.getSubject());
+		existingBook.setPrice(book.getPrice());
+		return this.BookRepository.save(existingBook);
 	}
-	
+
 	// delete Book by id
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Book> deleteBook(@PathVariable ("id") long BookId){
-		 Book existingBook = this.BookRepository.findById(BookId)
-					.orElseThrow(() -> new ResourceNotFoundException("Book not found with id :" + BookId));
-		 this.BookRepository.delete(existingBook);
-		 return ResponseEntity.ok().build();
+	public ResponseEntity<Book> deleteBook(@PathVariable("id") long BookId) {
+		Book existingBook = this.BookRepository.findById(BookId)
+				.orElseThrow(() -> new ResourceNotFoundException("Book not found with id :" + BookId));
+		this.BookRepository.delete(existingBook);
+		return ResponseEntity.ok().build();
 	}
 }
