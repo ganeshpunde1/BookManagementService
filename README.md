@@ -20,6 +20,7 @@ For further reference, please consider the following sections:
 * [@PathVariable ("id") long userId](https://www.baeldung.com/spring-pathvariable)
 
 2)Spring Boot Rest API Validation with Hibernate Validator
+
 In this example, we will create a Spring Boot REST application to show how we can validate a JSON payload sent in an HTTP request
  by adding constraints to the JPA entity. If the data passes validation, it will be persisted to a data store.
   Otherwise, one or more error messages will be returned to the client. We will also demonstrate how to create a custom constraint 
