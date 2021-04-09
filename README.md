@@ -1,6 +1,6 @@
 # Book Management Service
 
-### Different Annotation used in User Management REST API
+### Different Annotation used in Book Management REST API
 
 For further reference, please consider the following sections:
 
@@ -89,8 +89,8 @@ public class User {
     private String mobilePhone;
      
      @NotNull
-	@Size(min=2, max=30)
-	private String description;
+     @Size(min=2, max=30)
+     private String description;
 
 	@NotNull
 	@Min(18)
@@ -111,7 +111,7 @@ public class User {
 	                + "[0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}"
 	                + "|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])"
 	                + "[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$",
-	            message = "Invalid card number.")
+	           message = "Invalid card number.")
 	private String creditCard;
   }
   
